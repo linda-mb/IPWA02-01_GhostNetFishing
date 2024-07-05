@@ -1,39 +1,79 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p ="http://primefaces.org/ui">
+	
 <h:head>
-	 <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
-  <title>Geisternetz Verwaltung</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	<title>Geisternetz Verwaltung</title>
 </h:head>
 <h:body>
-<h1>Geisternetzverwaltung</h1>
-<h2>Übersicht aller Geisternetze</h2>
-  <h:dataTable var="einGeisternetz" value="#{geisternetzVerwaltung.bestand}"
-  		styleClass="geisternetz" rowClasses="ungerade, gerade"
-  		columnClasses="nr">
-  	<h:column>
-  		<f:facet name="header">Id</f:facet>
-  		<h:outputText value="#{einGeisternetz.id}"/>
-  	</h:column>
-  	<h:column>
-  		<f:facet name="header">Längengrad</f:facet>
-  		<h:outputText value="#{einGeisternetz.laengengrad}"/>
-  	</h:column>
-  	<h:column>
-  		<f:facet name="header">Breitengrad</f:facet>
-  		<h:outputText value="#{einGeisternetz.breitengrad}"/>
-  	</h:column>
-  	<h:column>
-  		<f:facet name="header">Größe</f:facet>
-  		<h:outputText value="#{einGeisternetz.groesse}"/>
-  	</h:column>
-  	<h:column>
-  		<f:facet name="header">Status</f:facet>
-  		<h:outputText value="#{einGeisternetz.status}"/>
-  	</h:column>
-  </h:dataTable>
-  	
+	<h1>Geisternetzverwaltung</h1>
+	<h2>Übersicht aller Geisternetze</h2>
+	<p:dataTable var="einGeisternetz"
+		value="#{geisternetzVerwaltung.bestand}" styleClass="geisternetz"
+		rowClasses="ungerade, gerade" columnClasses="nr">
+		<p:column>
+			<f:facet name="header">Id</f:facet>
+			<h:outputText value="#{einGeisternetz.id}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header">Längengrad</f:facet>
+			<h:outputText value="#{einGeisternetz.laengengrad}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header">Breitengrad</f:facet>
+			<h:outputText value="#{einGeisternetz.breitengrad}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header">Größe</f:facet>
+			<h:outputText value="#{einGeisternetz.groesse}" />
+		</p:column>
+		<p:column sortBy="#{einGeisternetz.status}">
+			<f:facet name="header">Status</f:facet>
+			<h:outputText value="#{einGeisternetz.status}" />
+		</p:column>
+	</p:dataTable>
+
+	<h:form>
+		<h:commandLink
+			action="#{geisternetzVerwaltung.bestand.add(geisternetz)}">
+			<img src="plus.png" />
+		</h:commandLink>
+	</h:form>´
+  
+  <h2>Geisternetz erfassen</h2>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:commandLink value="zurück"
+				action="#{geisternetzController.zurueck()}"
+				rendered="#{geisternetzController.index > 0}" />
+			<h:outputText rendered="#{geisternetzController.index == 0}"
+				value=" " />
+			<h:commandLink value="vor" action="#{geisternetzController.vor()}"
+				rendered="#{geisternetzController.maxIndex > geisternetzController.index}" />
+			<h:outputText
+				rendered="#{geisternetzController.index == geisternetzController.maxIndex}"
+				value=" " />
+			<h:outputLabel value="Id:" for="id" />
+			<h:outputText id="id" value="#{geisternetzController.geisternetz.id}" />
+			<h:outputLabel value="Längengrad:" for="laengengrad" />
+			<h:inputText id="laengengrad" value="#{geisternetzController.geisternetz.laengengrad}">
+				<f:convertNumber pattern="##.#####" locale="en"/>
+			</h:inputText>
+			<h:outputLabel value="Breitengrad:" for="breitengrad" />
+			<h:inputText id="breitengrad"
+				value="#{geisternetzController.geisternetz.breitengrad}" />
+			<h:outputLabel value="Größe:" for="groesse" />
+			<h:inputText id="groesse"
+				value="#{geisternetzController.geisternetz.groesse}" />
+			<h:outputLabel value="Status:" for="status" />
+			<h:inputText id="status"
+				value="#{geisternetzController.geisternetz.status}" />
+		</h:panelGrid>
+	</h:form>
+
 </h:body>
 </html>
 
