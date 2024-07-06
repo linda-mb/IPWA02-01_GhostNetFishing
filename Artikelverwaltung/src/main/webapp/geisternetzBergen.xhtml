@@ -25,15 +25,14 @@
 	<h2>Test Geisternetz Tabelle mit Checkbox Auswahl</h2>
 
 	<h:form>
-		<div class="card">
 			<h5>Checkbox</h5>
 			<p:dataTable var="einGeisternetz"
 				value="#{geisternetzVerwaltung.bestand}"
 				selection="#{auswahlGeisternetze.selectedGeisternetze}"
 				rowKey="#{einGeisternetz.id}" style="margin-bottom:0"
 				paginator="true" rows="5" selectionPageOnly="false"
-				selectionRowMode="none">
-				<p:column selectionBox="true" selectionMode="multiple"
+				selectionRowMode="add">
+				<p:column selectionMode="multiple"
 					style="width:16px;text-align:center" />
 				<p:column headerText="Id">
 					<h:outputText value="#{einGeisternetz.id}" />
@@ -59,74 +58,90 @@
 					<h:outputText value="#{einGeisternetz.status}" />
 				</p:column>
 			</p:dataTable>
-		</div>
 	</h:form>
+	
+	 <h:form>
+        <h5>Checkbox</h5>
+        <p:dataTable var="einGeisternetz" value="#{geisternetzVerwaltung.bestand}"
+                     selection="#{auswahlGeisternetze.selectedGeisternetze}"
+                     rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
+                     selectionPageOnly="false"
+                     rowSelectMode="none">
+            <p:column selectionMode="multiple" style="width:16px;text-align:center" />
+            <p:column headerText="Id">
+                <h:outputText value="#{einGeisternetz.id}" />
+            </p:column>
+            <p:column headerText="Längengrad">
+                <h:outputText value="#{einGeisternetz.laengengrad}" />
+            </p:column>
+            <p:column headerText="Breitengrad">
+                <h:outputText value="#{einGeisternetz.breitengrad}" />
+            </p:column>
+            <p:column headerText="Größe">
+                <h:outputText value="#{einGeisternetz.groesse}" />
+            </p:column>
+            <p:column headerText="Status">
+                <h:outputText value="#{einGeisternetz.status}" />
+            </p:column>
+        </p:dataTable>
+        <p:commandButton value="Get Selected" update="selectedOutput"
+                         actionListener="#{auswahlGeisternetze.printSelected}" />
+        <h:panelGroup id="selectedOutput">
+            <h:outputText value="Selected Geisternetze: #{auswahlGeisternetze.selectedGeisternetze}" />
+        </h:panelGroup>
+    </h:form>
+    
+    <h:form>
+        <h5>Checkbox</h5>
+        <p:dataTable var="einGeisternetz" value="#{geisternetzVerwaltung.bestand}"
+                     selection="#{auswahlGeisternetze.selectedGeisternetze}"
+                     rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
+                     selectionPageOnly="false">
+            <p:column selectionMode="multiple" style="width:16px;text-align:center" />
+            <p:column headerText="Id">
+                <h:outputText value="#{einGeisternetz.id}" />
+            </p:column>
+            <p:column headerText="Längengrad">
+                <h:outputText value="#{einGeisternetz.laengengrad}" />
+            </p:column>
+            <p:column headerText="Breitengrad">
+                <h:outputText value="#{einGeisternetz.breitengrad}" />
+            </p:column>
+            <p:column headerText="Größe">
+                <h:outputText value="#{einGeisternetz.groesse}" />
+            </p:column>
+            <p:column headerText="Status">
+                <h:outputText value="#{einGeisternetz.status}" />
+            </p:column>
+        </p:dataTable>
 
+        <p:commandButton value="Ausgewählte Geisternetze bergen" icon="pi pi-check" 
+                         onclick="PF('dlg').show();" process="@this" update="selectedOutput" />
 
-	<h2>Übersicht aller Geisternetze</h2>
-	<p:dataTable var="einGeisternetz"
-		value="#{geisternetzVerwaltung.bestand}" styleClass="geisternetz"
-		rowClasses="ungerade, gerade" columnClasses="nr">
-		<p:column>
-			<f:facet name="header">Id</f:facet>
-			<h:outputText value="#{einGeisternetz.id}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">Längengrad</f:facet>
-			<h:outputText value="#{einGeisternetz.laengengrad}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">Breitengrad</f:facet>
-			<h:outputText value="#{einGeisternetz.breitengrad}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">Größe</f:facet>
-			<h:outputText value="#{einGeisternetz.groesse}" />
-		</p:column>
-		<p:column sortBy="#{einGeisternetz.status}">
-			<f:facet name="header">Status</f:facet>
-			<h:outputText value="#{einGeisternetz.status}" />
-		</p:column>
-	</p:dataTable>
+        <!-- Dialog for user input -->
+        <p:dialog header="Buchungsdetails" widgetVar="dlg" modal="true" closable="false" resizable="false">
+            <h:panelGrid columns="2">
+                <h:outputLabel for="vorname" value="Vorname:" />
+                <p:inputText id="vorname" value="#{auswahlGeisternetze.person.vorname}" required="true" />
+                
+                <h:outputLabel for="nachname" value="Nachname:" />
+                <p:inputText id="nachname" value="#{auswahlGeisternetze.person.nachname}" required="true" />
+                
+                <h:outputLabel for="telefonnummer" value="Telefonnummer:" />
+                <p:inputText id="telefonnummer" value="#{auswahlGeisternetze.person.telefonnummer}" required="true" />
+            </h:panelGrid>
+            <p:commandButton value="Bestätigen" icon="pi pi-check" actionListener="#{auswahlGeisternetze.bookGeisternetze}" 
+                             oncomplete="PF('dlg').hide();" update="selectedOutput,bookingNumberOutput" />
+        </p:dialog>
 
-	<h:form>
-		<h:commandLink
-			action="#{geisternetzVerwaltung.bestand.add(geisternetz)}">
-			<img src="plus.png" />
-		</h:commandLink>
-	</h:form>´
-  
-  <h2>Geisternetz erfassen</h2>
-	<h:form>
-		<h:panelGrid columns="2">
-			<h:commandLink value="zurück"
-				action="#{geisternetzController.zurueck()}"
-				rendered="#{geisternetzController.index > 0}" />
-			<h:outputText rendered="#{geisternetzController.index == 0}"
-				value=" " />
-			<h:commandLink value="vor" action="#{geisternetzController.vor()}"
-				rendered="#{geisternetzController.maxIndex > geisternetzController.index}" />
-			<h:outputText
-				rendered="#{geisternetzController.index == geisternetzController.maxIndex}"
-				value=" " />
-			<h:outputLabel value="Id:" for="id" />
-			<h:outputText id="id" value="#{geisternetzController.geisternetz.id}" />
-			<h:outputLabel value="Längengrad:" for="laengengrad" />
-			<h:inputText id="laengengrad"
-				value="#{geisternetzController.geisternetz.laengengrad}">
-				<f:convertNumber pattern="##.#####" locale="en" />
-			</h:inputText>
-			<h:outputLabel value="Breitengrad:" for="breitengrad" />
-			<h:inputText id="breitengrad"
-				value="#{geisternetzController.geisternetz.breitengrad}" />
-			<h:outputLabel value="Größe:" for="groesse" />
-			<h:inputText id="groesse"
-				value="#{geisternetzController.geisternetz.groesse}" />
-			<h:outputLabel value="Status:" for="status" />
-			<h:inputText id="status"
-				value="#{geisternetzController.geisternetz.status}" />
-		</h:panelGrid>
-	</h:form>
+        <h:panelGroup id="selectedOutput">
+            <h:outputText value="Selected Geisternetze: #{auswahlGeisternetze.selectedGeisternetze}" />
+        </h:panelGroup>
+        
+        <h:panelGroup id="bookingNumberOutput">
+            <h:outputText value="Buchungsnummer: #{auswahlGeisternetze.bookingNumber}" rendered="#{not empty auswahlGeisternetze.bookingNumber}" />
+        </h:panelGroup>
+    </h:form>
 
 </h:body>
 </html>

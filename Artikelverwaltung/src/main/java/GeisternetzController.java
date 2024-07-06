@@ -1,8 +1,5 @@
 import java.io.Serializable;
-import java.util.logging.Logger; // Ensure this import is present
 
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
