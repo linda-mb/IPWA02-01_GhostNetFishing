@@ -8,9 +8,9 @@ public class Geisternetz {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private double laengengrad =10.1;
-	private double breitengrad=13.2;
-	private String groesse = "klein";
+	private double laengengrad;
+	private double breitengrad;
+	private String groesse;
 	private String status;
 
 	public Geisternetz() {};

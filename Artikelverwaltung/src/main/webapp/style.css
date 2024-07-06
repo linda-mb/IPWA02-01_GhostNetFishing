@@ -74,3 +74,13 @@ tr.gerade {
 td.nr {
     background-color: lightblue;
 }
+
+       #map {
+            height: 25vw;
+            width: 25vw;
+            margin: 20px 0;
+        }
+
+.block {
+	margin-bottom: 20px;
+}

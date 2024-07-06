@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	<title>Geisternetz melden</title>
+</h:head>
+<h:body>
+	<h:form id="menu">
+		<p:megaMenu orientation="horizontal" autoDisplay="true">
+			<p:menuitem value="Startseite" action="index" icon="pi pi-fw pi-home" />
+			<p:menuitem value="Geisternetz melden" action="geisternetzMelden"
+				icon="pi pi-fw pi-plus" />
+			<p:menuitem value="Geisternetz bergen" action="geisternetzBergen"
+				icon="pi pi-fw pi-heart-fill" />
+			<p:menuitem value="Bergung abschließen"
+				action="geisternetzIstGeborgen" icon="pi pi-fw pi-check" />
+		</p:megaMenu>
+	</h:form>
+
+	<h1>Geisternetz melden</h1>
+
+	<h:form id="geisternetzForm">
+		<!-- Form inputs for Geisternetz properties -->
+		<div class="block">
+			<p:outputLabel for="laengengrad" value="Längengrad: " />
+			<p:inputText id="laengengrad"
+				value="#{geisternetzController.neuesGeisternetz.laengengrad}" />
+		</div>
+		<div class="block">
+			<p:outputLabel for="breitengrad" value="Breitengrad:" />
+			<p:inputText id="breitengrad"
+				value="#{geisternetzController.neuesGeisternetz.breitengrad}" />
+		</div>
+
+		<div class="field grid">
+			<p:outputLabel for="groesse" value="Größe:" />
+			<div>
+				<p:selectOneRadio id="groesse"
+					value="#{geisternetzController.neuesGeisternetz.groesse}">
+					<f:selectItem itemLabel="klein (Länge bis 5 Meter)"
+						itemValue="klein" />
+					<f:selectItem itemLabel="mittel (Länge 5-15 Meter)"
+						itemValue="mittel" />
+					<f:selectItem itemLabel="groß (Länge ab 15 Meter)" itemValue="groß" />
+				</p:selectOneRadio>
+			</div>
+		</div>
+
+
+		<p:commandButton value="Neues Netz hinzufügen"
+			action="#{geisternetzController.addGeisternetz}">
+		</p:commandButton>
+	</h:form>
+</h:body>
+</html>
