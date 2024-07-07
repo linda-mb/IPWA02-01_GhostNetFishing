@@ -6,7 +6,7 @@ import jakarta.inject.Named;
 
 @Named
 @ViewScoped
-public class GeisternetzController implements Serializable {
+public class GeisternetzMeldenController implements Serializable {
 	/**
 	 * 
 	 */
@@ -22,24 +22,8 @@ public class GeisternetzController implements Serializable {
 		return geisternetzVerwaltung.getBestand().get(index);
 	}
 
-	public void vor() {
-		if (index < getMaxIndex()) {
-			index++;
-		}
-	}
-
-	public void zurueck() {
-		if (index > 0) {
-			index--;
-		}
-	}
-
 	public int getIndex() {
 		return index;
-	}
-
-	public int getMaxIndex() {
-		return geisternetzVerwaltung.getBestand().size() - 1;
 	}
 
 	public Geisternetz getNeuesGeisternetz() {
@@ -50,7 +34,7 @@ public class GeisternetzController implements Serializable {
 		this.neuesGeisternetz = neuesGeisternetz;
 	}
 
-	 public void addGeisternetz() {
+	 public void meldeGeisternetz() {
 	        // Console output for debugging
 	        System.out.println("Received new Geisternetz with the following details:");
 	        System.out.println("Längengrad: " + neuesGeisternetz.getLaengengrad());

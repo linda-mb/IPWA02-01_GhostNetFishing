@@ -28,19 +28,19 @@
 		<div class="block">
 			<p:outputLabel for="laengengrad" value="Längengrad: " />
 			<p:inputText id="laengengrad"
-				value="#{geisternetzController.neuesGeisternetz.laengengrad}" />
+				value="#{geisternetzMeldenController.neuesGeisternetz.laengengrad}" />
 		</div>
 		<div class="block">
 			<p:outputLabel for="breitengrad" value="Breitengrad:" />
 			<p:inputText id="breitengrad"
-				value="#{geisternetzController.neuesGeisternetz.breitengrad}" />
+				value="#{geisternetzMeldenController.neuesGeisternetz.breitengrad}" />
 		</div>
 
 		<div class="field grid">
 			<p:outputLabel for="groesse" value="Größe:" />
 			<div>
 				<p:selectOneRadio id="groesse"
-					value="#{geisternetzController.neuesGeisternetz.groesse}">
+					value="#{geisternetzMeldenController.neuesGeisternetz.groesse}">
 					<f:selectItem itemLabel="klein (Länge bis 5 Meter)"
 						itemValue="klein" />
 					<f:selectItem itemLabel="mittel (Länge 5-15 Meter)"
@@ -50,9 +50,8 @@
 			</div>
 		</div>
 
-
-		<p:commandButton value="Neues Netz hinzufügen"
-			action="#{geisternetzController.addGeisternetz}">
+		<p:commandButton value="Neues Geisternetz melden"
+			action="#{geisternetzMeldenController.meldeGeisternetz}">
 		</p:commandButton>
 	</h:form>
 </h:body>
