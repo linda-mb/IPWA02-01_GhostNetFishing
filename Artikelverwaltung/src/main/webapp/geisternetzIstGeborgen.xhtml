@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <title>Booking Details</title>
+</h:head>
+<h:body>
+    <h:form>
+        <h:outputLabel for="bookingNumber" value="Buchungsnummer:" />
+        <h:inputText id="bookingNumber" value="#{buchungVerwaltung.bookingNumber}" required="true" />
+        <p:commandButton value="Suchen" actionListener="#{buchungVerwaltung.searchByBookingNumber}" update="bookingDetailsTable" />
+    </h:form>
+
+    <h:form id="bookingDetailsTable">
+        <p:dataTable var="pg" value="#{buchungVerwaltung.bookedGeisternetze}" selectionMode="multiple" selection="#{buchungVerwaltung.selectedGeisternetze}" rowKey="#{pg.id}">
+            <p:column selectionMode="multiple" style="width:16px;text-align:center" />
+            <p:column headerText="Person Vorname">
+                <h:outputText value="#{pg.person.vorname}" />
+            </p:column>
+            <p:column headerText="Person Nachname">
+                <h:outputText value="#{pg.person.nachname}" />
+            </p:column>
+            <p:column headerText="Geisternetz ID">
+                <h:outputText value="#{pg.geisternetz.id}" />
+            </p:column>
+            <p:column headerText="Längengrad">
+                <h:outputText value="#{pg.geisternetz.laengengrad}" />
+            </p:column>
+            <p:column headerText="Breitengrad">
+                <h:outputText value="#{pg.geisternetz.breitengrad}" />
+            </p:column>
+            <p:column headerText="Größe">
+                <h:outputText value="#{pg.geisternetz.groesse}" />
+            </p:column>
+            <p:column headerText="Status">
+                <h:outputText value="#{pg.geisternetz.status}" />
+            </p:column>
+        </p:dataTable>
+        <p:commandButton value="Als Geborgen melden" actionListener="#{buchungVerwaltung.updateGeisternetzeStatus('Geborgen')}" update="bookingDetailsTable" />
+        <p:commandButton value="Als Verschollen melden" actionListener="#{buchungVerwaltung.updateGeisternetzeStatus('Verschollen')}" update="bookingDetailsTable" />
+    </h:form>
+</h:body>
+</html>

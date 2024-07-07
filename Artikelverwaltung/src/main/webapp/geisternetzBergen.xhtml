@@ -23,76 +23,9 @@
 
 	<h1>Geisternetzverwaltung</h1>
 	<h2>Test Geisternetz Tabelle mit Checkbox Auswahl</h2>
-
-	<h:form>
-			<h5>Checkbox</h5>
-			<p:dataTable var="einGeisternetz"
-				value="#{geisternetzVerwaltung.bestand}"
-				selection="#{auswahlGeisternetze.selectedGeisternetze}"
-				rowKey="#{einGeisternetz.id}" style="margin-bottom:0"
-				paginator="true" rows="5" selectionPageOnly="false"
-				selectionRowMode="add">
-				<p:column selectionMode="multiple"
-					style="width:16px;text-align:center" />
-				<p:column headerText="Id">
-					<h:outputText value="#{einGeisternetz.id}" />
-				</p:column>
-
-				<p:column headerText="Längengrad">
-					<h:outputText value="#{einGeisternetz.laengengrad}">
-						<f:convertNumber pattern="##.#####" locale="en" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Breitengrad">
-					<h:outputText value="#{einGeisternetz.breitengrad}">
-						<f:convertNumber pattern="##.#####" locale="en" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Größe">
-					<h:outputText value="#{einGeisternetz.groesse}" />
-				</p:column>
-
-				<p:column sortBy="#{einGeisternetz.status}" headerText="Status">
-					<h:outputText value="#{einGeisternetz.status}" />
-				</p:column>
-			</p:dataTable>
-	</h:form>
-	
-	 <h:form>
-        <h5>Checkbox</h5>
-        <p:dataTable var="einGeisternetz" value="#{geisternetzVerwaltung.bestand}"
-                     selection="#{auswahlGeisternetze.selectedGeisternetze}"
-                     rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
-                     selectionPageOnly="false"
-                     rowSelectMode="none">
-            <p:column selectionMode="multiple" style="width:16px;text-align:center" />
-            <p:column headerText="Id">
-                <h:outputText value="#{einGeisternetz.id}" />
-            </p:column>
-            <p:column headerText="Längengrad">
-                <h:outputText value="#{einGeisternetz.laengengrad}" />
-            </p:column>
-            <p:column headerText="Breitengrad">
-                <h:outputText value="#{einGeisternetz.breitengrad}" />
-            </p:column>
-            <p:column headerText="Größe">
-                <h:outputText value="#{einGeisternetz.groesse}" />
-            </p:column>
-            <p:column headerText="Status">
-                <h:outputText value="#{einGeisternetz.status}" />
-            </p:column>
-        </p:dataTable>
-        <p:commandButton value="Get Selected" update="selectedOutput"
-                         actionListener="#{auswahlGeisternetze.printSelected}" />
-        <h:panelGroup id="selectedOutput">
-            <h:outputText value="Selected Geisternetze: #{auswahlGeisternetze.selectedGeisternetze}" />
-        </h:panelGroup>
-    </h:form>
-    
+   
     <h:form>
-        <h5>Checkbox</h5>
+        <h2>Final</h2>
         <p:dataTable var="einGeisternetz" value="#{geisternetzVerwaltung.bestand}"
                      selection="#{auswahlGeisternetze.selectedGeisternetze}"
                      rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
