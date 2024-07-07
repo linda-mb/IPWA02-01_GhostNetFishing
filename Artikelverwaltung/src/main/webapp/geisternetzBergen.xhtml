@@ -23,13 +23,22 @@
 
 	<h1>Geisternetzverwaltung</h1>
 	<h2>Test Geisternetz Tabelle mit Checkbox Auswahl</h2>
+	
+	<!-- WAS PASSIERT - 
+	var="einGeisternetz": Variable name for iterating over data.
+value="#{geisternetzVerwaltung.bestand}": The data source for the table.
+selection="#{geisternetzBergenController.selectedGeisternetze}": The selected rows.
+rowKey="#{einGeisternetz.id}": The key for each row.
+paginator="true": Enables pagination.
+rows="5": Number of rows per page.
+	
+	
+	 -->
 
-
-   
     <h:form>
         <h2>Final</h2>
         <p:dataTable var="einGeisternetz" value="#{geisternetzVerwaltung.bestand}"
-                     selection="#{auswahlGeisternetze.selectedGeisternetze}"
+                     selection="#{geisternetzBergenController.selectedGeisternetze}"
                      rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
                      selectionPageOnly="false">
             <p:column selectionMode="multiple" style="width:16px;text-align:center" />
@@ -57,24 +66,24 @@
         <p:dialog header="Buchungsdetails" widgetVar="dlg" modal="true" closable="false" resizable="false">
             <h:panelGrid columns="2">
                 <h:outputLabel for="vorname" value="Vorname:" />
-                <p:inputText id="vorname" value="#{auswahlGeisternetze.person.vorname}" required="true" />
+                <p:inputText id="vorname" value="#{geisternetzBergenController.person.vorname}" required="true" />
                 
                 <h:outputLabel for="nachname" value="Nachname:" />
-                <p:inputText id="nachname" value="#{auswahlGeisternetze.person.nachname}" required="true" />
+                <p:inputText id="nachname" value="#{geisternetzBergenController.person.nachname}" required="true" />
                 
                 <h:outputLabel for="telefonnummer" value="Telefonnummer:" />
-                <p:inputText id="telefonnummer" value="#{auswahlGeisternetze.person.telefonnummer}" required="true" />
+                <p:inputText id="telefonnummer" value="#{geisternetzBergenController.person.telefonnummer}" required="true" />
             </h:panelGrid>
-            <p:commandButton value="Bestätigen" icon="pi pi-check" actionListener="#{auswahlGeisternetze.bookGeisternetze}" 
+            <p:commandButton value="Bestätigen" icon="pi pi-check" actionListener="#{geisternetzBergenController.bookGeisternetze}" 
                              oncomplete="PF('dlg').hide();" update="selectedOutput,bookingNumberOutput" />
         </p:dialog>
 
         <h:panelGroup id="selectedOutput">
-            <h:outputText value="Selected Geisternetze: #{auswahlGeisternetze.selectedGeisternetze}" />
+            <h:outputText value="Selected Geisternetze: #{geisternetzBergenController.selectedGeisternetze}" />
         </h:panelGroup>
         
         <h:panelGroup id="bookingNumberOutput">
-            <h:outputText value="Buchungsnummer: #{auswahlGeisternetze.bookingNumber}" rendered="#{not empty auswahlGeisternetze.bookingNumber}" />
+            <h:outputText value="Buchungsnummer: #{geisternetzBergenController.bookingNumber}" rendered="#{not empty geisternetzBergenController.bookingNumber}" />
         </h:panelGroup>
     </h:form>
 

@@ -40,7 +40,8 @@
 			<p:outputLabel for="groesse" value="Größe:" />
 			<div>
 				<p:selectOneRadio id="groesse"
-					value="#{geisternetzMeldenController.neuesGeisternetz.groesse}">
+					value="#{geisternetzMeldenController.neuesGeisternetz.groesse}"
+					 required="true">
 					<f:selectItem itemLabel="klein (Länge bis 5 Meter)"
 						itemValue="klein" />
 					<f:selectItem itemLabel="mittel (Länge 5-15 Meter)"
@@ -48,10 +49,12 @@
 					<f:selectItem itemLabel="groß (Länge ab 15 Meter)" itemValue="groß" />
 				</p:selectOneRadio>
 			</div>
+			<p:messages />
 		</div>
 
 		<p:commandButton value="Neues Geisternetz melden"
-			action="#{geisternetzMeldenController.meldeGeisternetz}">
+			action="#{geisternetzMeldenController.meldeGeisternetz}"
+			update="geisternetzForm:laengengrad, geisternetzForm:breitengrad, geisternetzForm: groesse">
 		</p:commandButton>
 	</h:form>
 </h:body>

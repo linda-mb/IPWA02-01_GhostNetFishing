@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Named
 @SessionScoped
-public class AuswahlGeisternetze implements Serializable {
+public class GeisternetzBergenController implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Geisternetz> selectedGeisternetze = new ArrayList<>();
     private String bookingNumber;
