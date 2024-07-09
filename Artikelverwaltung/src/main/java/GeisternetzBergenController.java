@@ -51,6 +51,7 @@ public class GeisternetzBergenController implements Serializable {
                 association.setGeisternetz(netz);
                 association.setRolle("Bergender"); // Example role
                 association.setBuchungsnummer(bookingNumber); // Use the single booking number
+                System.out.println("person "+ person);
                 System.out.println("Geisternetz ID: " + netz.getId() + " Buchungsnummer: " + association.getBuchungsnummer());
             }
             System.out.println("Booking Number: " + bookingNumber);
