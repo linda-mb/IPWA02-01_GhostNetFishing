@@ -1,12 +1,25 @@
 import java.io.Serializable;
+import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String vorname;
 	private String nachname;
 	private String telefonnummer;
+	
+	@OneToMany
+	List<Geisternetz> zugeordneteGeisternetze;
 	
 	public Person() {}
 	
@@ -47,5 +60,13 @@ public class Person implements Serializable {
 
 	public void setTelefonnummer(String telefonnummer) {
 		this.telefonnummer = telefonnummer;
+	}
+	
+	public List<Geisternetz> getZugeordneteGeisternetze() {
+		return zugeordneteGeisternetze;
+	}
+
+	public void setZugeordneteGeisternetze(List<Geisternetz> zugeordneteGeisternetze) {
+		this.zugeordneteGeisternetze = zugeordneteGeisternetze;
 	}
 }

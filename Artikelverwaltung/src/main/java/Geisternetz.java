@@ -2,6 +2,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Geisternetz {
@@ -12,7 +13,10 @@ public class Geisternetz {
 	private double breitengrad;
 	private String groesse;
 	private String status;
-
+	
+	@ManyToOne
+    private Person person;
+	
 	public Geisternetz() {};
 	
 	public Geisternetz(int id, double laengengrad, double breitengrad, String groesse, String status) {
@@ -62,4 +66,14 @@ public class Geisternetz {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	
+	
 }

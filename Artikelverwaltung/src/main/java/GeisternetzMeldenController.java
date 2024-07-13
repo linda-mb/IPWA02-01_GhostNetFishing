@@ -42,7 +42,7 @@ public class GeisternetzMeldenController implements Serializable {
 	        System.out.println("Größe: " + neuesGeisternetz.getGroesse());
 
 	        neuesGeisternetz.setStatus("gemeldet"); // Set status to "gemeldet"
-	        geisternetzVerwaltung.getBestand().add(neuesGeisternetz);
+	        geisternetzVerwaltung.saveGeisternetz(neuesGeisternetz);
 	        this.neuesGeisternetz = new Geisternetz(); // Reset form
 
 	    }
