@@ -9,14 +9,6 @@
 	<version>0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<failOnMissingWebXml>false</failOnMissingWebXml>
-		<jsf2leaf.jar.path>C:/Users/linda/Downloads/jsf2leaf.jar</jsf2leaf.jar.path>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -77,14 +69,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.28</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.jsf2leaf</groupId>
-			<artifactId>jsf2leaf</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${jsf2leaf.jar.path}</systemPath>
 		</dependency>
 	</dependencies>
 </project>

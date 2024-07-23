@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	<title>Geisternetz Verschollen</title>
+</h:head>
+<h:body>
+	<h:form id="verschollenForm">
+		<h1>Übersicht aller gemeldeten Geisternetze</h1>
+
+		<p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
+			value="#{geisternetzVerschollenController.gefundeneGeisternetze}"
+			selection="#{geisternetzVerschollenController.selectedGeisternetze}"
+			rowKey="#{einGeisternetz.id}" paginator="true" rows="10"
+			selectionPageOnly="false">
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
+
+            <p:column headerText="Id">
+                <h:outputText value="#{einGeisternetz.id}"/>
+            </p:column>
+            <p:column headerText="Längengrad">
+                <h:outputText value="#{einGeisternetz.laengengrad}"/>
+            </p:column>
+            <p:column headerText="Breitengrad">
+                <h:outputText value="#{einGeisternetz.breitengrad}"/>
+            </p:column>
+            <p:column headerText="Größe">
+                <h:outputText value="#{einGeisternetz.groesse}"/>
+            </p:column>
+            <p:column headerText="Status">
+                <h:outputText value="#{einGeisternetz.status}"/>
+            </p:column>
+            <p:column headerText="Vorname">
+                <h:outputText value="#{einGeisternetz.person.vorname}"/>
+            </p:column>
+            <p:column headerText="Nachname">
+                <h:outputText value="#{einGeisternetz.person.nachname}"/>
+            </p:column>
+            <p:column headerText="Telefonnummer">
+                <h:outputText value="#{einGeisternetz.person.telefonnummer}"/>
+            </p:column>
+        </p:dataTable>
+
+	</h:form>
+</h:body>
+</html>

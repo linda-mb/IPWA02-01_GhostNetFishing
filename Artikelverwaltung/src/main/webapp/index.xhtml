@@ -6,31 +6,72 @@
 
 <h:head>
 	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-	<title>Geisternetz Verwaltung</title>
+	<title>Geisternetze</title>
 </h:head>
 <h:body>
-	<h:form>
-		<p:megaMenu orientation="horizontal" autoDisplay="true">
-			<p:menuitem value="Startseite" action="index" icon="pi pi-fw pi-home" />
-			<p:menuitem value="Geisternetz melden" action="geisternetzMelden"
-				icon="pi pi-fw pi-plus" />
-			<p:menuitem value="Geisternetz bergen" action="geisternetzBergen"
-				icon="pi pi-fw pi-heart-fill" />
-			<p:menuitem value="Bergung abschließen"
-				action="geisternetzIstGeborgen" icon="pi pi-fw pi-check" />
-		</p:megaMenu>
-	</h:form>
+	<div class="main">
+		<h1>Geisternetze melden und bergen</h1>
+		<p>
+			Als Geisternetze werden verlorene Fischernetze bezeichnet. Diese
+			Netze können eine Gefahr für Meereslebewesen darstellen.<br></br>Helfen
+			Sie uns herrenlose Fischernetze zu dokumentieren und zu bergen, um
+			die Gewässer wieder sicherer zu machen.
+		</p>
+		<h:form>
+			<p:panelGrid columns="3">
+				<p:card>
+					<f:facet name="title">
+                    Geisternetz melden
+                </f:facet>
+					<f:facet name="subtitle">
+                   Sie bleiben anonym
+                </f:facet>
+					<p>Sie haben ein herrenloses Fischernetz entdeckt und möchten
+						dieses anonym melden?</p>
 
-	<h1>Geisternetze</h1>
-		<p>Als Geisternetze werden verlorene Fischernetze bezeichnet. Diese
-		Netze können sowohl eine Gefahr als auch einen Lebensraum für
-		Meereslebewesen bieten.</p>
-	<h:form>
-		<p:commandButton value="Geisternetz melden" action="geisternetzMelden"></p:commandButton><br></br><br></br>
-		<p:commandButton value="Geisternetz bergen" action="geisternetzBergen"></p:commandButton><br></br><br></br>
-		<p:commandButton value="Geisternetz als geborgen melden" action="geisternetzIstGeborgen"></p:commandButton>
-	</h:form>
+					<f:facet name="footer">
+						<p:linkButton outcome="geisternetzMelden"
+							value="Geisternetz melden" />
+					</f:facet>
+				</p:card>
+				<p:card>
+					<f:facet name="title">
+                    Bergung anmelden
+                </f:facet>
+					<f:facet name="subtitle">
+                    Kontaktdaten erforderlich
+                </f:facet>
+					<p>Sie sehen eine Darstellung aller gemeldeten Geisternetze,
+						die noch geborgen werden müssen. Sie können sich verbindlich für
+						die Bergung eines oder mehrerer Netze melden. Dafür wählen Sie
+						einfach die Netze aus und geben Ihren Namen sowie Ihre
+						Telefonnummer an.</p>
 
+					<f:facet name="footer">
+						<p:linkButton outcome="geisternetzBergen"
+							value="Geisternetz bergen" />
+					</f:facet>
+				</p:card>
+				<p:card>
+					<f:facet name="title">
+                    Bergung abschließen oder planen
+                </f:facet>
+					<f:facet name="subtitle">
+                    Zugriff nur nach angemeldeter Bergung möglich
+                </f:facet>
+					<p>Sie haben die Bergung mindestens eines Netzes angemeldet.
+						Hier können Sie die Bergung abschließen, wenn Sie das Netz
+						geborgen haben. Alternativ sehen Sie eine Übersicht aller noch zu
+						bergenden Netze und können sich ggf. mit anderen Personen
+						abstimmen und die Bergungen umverteilen.</p>
+					<f:facet name="footer">
+						<p:linkButton outcome="dashboardBergendePerson"
+							value="Bergung planen oder abschließen" />
+					</f:facet>
+				</p:card>
+			</p:panelGrid>
+		</h:form>
+	</div>
 </h:body>
 </html>
 

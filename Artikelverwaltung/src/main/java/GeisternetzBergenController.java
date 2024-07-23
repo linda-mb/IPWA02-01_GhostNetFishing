@@ -1,22 +1,31 @@
+import java.io.Serializable;
+import java.util.List;
+
+import org.primefaces.PrimeFaces;
+
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Named
 @SessionScoped
 public class GeisternetzBergenController implements Serializable {
     private static final long serialVersionUID = 1L;
-    private List<Geisternetz> selectedGeisternetze = new ArrayList<>();
-    private String bookingNumber;
+    private Person neuePerson = null;
+    private List<Geisternetz> selectedGeisternetze;
 
     @Inject
-    private Person person;
+    private GeisternetzVerwaltung geisternetzVerwaltung;
 
-    // Getters and setters
+    public Person getNeuePerson() {
+        if (null == this.neuePerson) {
+            this.neuePerson = new Person();
+        }
+        return this.neuePerson;
+    }
+
     public List<Geisternetz> getSelectedGeisternetze() {
         return selectedGeisternetze;
     }
@@ -25,38 +34,18 @@ public class GeisternetzBergenController implements Serializable {
         this.selectedGeisternetze = selectedGeisternetze;
     }
 
-    public String getBookingNumber() {
-        return bookingNumber;
-    }
-
-    public void setBookingNumber(String bookingNumber) {
-        this.bookingNumber = bookingNumber;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public void bookGeisternetze() {
-        if (selectedGeisternetze != null && !selectedGeisternetze.isEmpty()) {
-            bookingNumber = UUID.randomUUID().toString();
-            System.out.println("Booked Geisternetze:");
-            for (Geisternetz netz : selectedGeisternetze) {
-                PersonGeisternetz association = new PersonGeisternetz();
-                association.setPerson(person);
-                association.setGeisternetz(netz);
-                association.setRolle("Bergender"); // Example role
-                association.setBuchungsnummer(bookingNumber); // Use the single booking number
-                System.out.println("person "+ person);
-                System.out.println("Geisternetz ID: " + netz.getId() + " Buchungsnummer: " + association.getBuchungsnummer());
-            }
-            System.out.println("Booking Number: " + bookingNumber);
-        } else {
-            System.out.println("No Geisternetze selected.");
+    public String personSpeichern() {
+        if (geisternetzVerwaltung.savePersonWithGeisternetze(neuePerson, selectedGeisternetze));
+       {
+        	PrimeFaces.current().executeScript("PF('dlg-bergung').hide()");
         }
+        int anzahl = selectedGeisternetze.size();
+        FacesContext.getCurrentInstance().addMessage(null, 
+            new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                "Erfolgreich für Bergung angemeldet. Anzahl der gebuchten Netze: " + anzahl, ""));
+        this.neuePerson = null;
+        return null;
     }
+    
+
 }

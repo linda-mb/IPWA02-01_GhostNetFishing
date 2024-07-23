@@ -5,43 +5,58 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-    <title>Booking Details</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+    <title>Geisternetz als geborgen melden</title>
 </h:head>
 <h:body>
-    <h:form>
-        <h:outputLabel for="bookingNumber" value="Buchungsnummer:" />
-        <h:inputText id="bookingNumber" value="#{buchungVerwaltung.bookingNumber}" required="true" />
-        <p:commandButton value="Suchen" actionListener="#{buchungVerwaltung.searchByBookingNumber}" update="bookingDetailsTable" />
-    </h:form>
+    <h2>Meine Geisternetze als geborgen melden</h2>
+    
+    <h:form id="sucheForm">
+        <p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
+                     value="#{geisternetzIstGeborgenController.geisternetzeInBergung}"
+                     selection="#{geisternetzIstGeborgenController.selectedGeisternetze}"
+                     rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
+                     selectionPageOnly="false">
 
-    <h:form id="bookingDetailsTable">
-        <p:dataTable var="pg" value="#{buchungVerwaltung.bookedGeisternetze}" selectionMode="multiple" selection="#{buchungVerwaltung.selectedGeisternetze}" rowKey="#{pg.id}">
-            <p:column selectionMode="multiple" style="width:16px;text-align:center" />
-            <p:column headerText="Person Vorname">
-                <h:outputText value="#{pg.person.vorname}" />
-            </p:column>
-            <p:column headerText="Person Nachname">
-                <h:outputText value="#{pg.person.nachname}" />
-            </p:column>
-            <p:column headerText="Geisternetz ID">
-                <h:outputText value="#{pg.geisternetz.id}" />
+            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+            <p:column headerText="Id">
+                <h:outputText value="#{einGeisternetz.id}"/>
             </p:column>
             <p:column headerText="Längengrad">
-                <h:outputText value="#{pg.geisternetz.laengengrad}" />
+                <h:outputText value="#{einGeisternetz.laengengrad}"/>
             </p:column>
             <p:column headerText="Breitengrad">
-                <h:outputText value="#{pg.geisternetz.breitengrad}" />
+                <h:outputText value="#{einGeisternetz.breitengrad}"/>
             </p:column>
             <p:column headerText="Größe">
-                <h:outputText value="#{pg.geisternetz.groesse}" />
+                <h:outputText value="#{einGeisternetz.groesse}"/>
             </p:column>
             <p:column headerText="Status">
-                <h:outputText value="#{pg.geisternetz.status}" />
+                <h:outputText value="#{einGeisternetz.status}"/>
+            </p:column>
+            <p:column headerText="Vorname">
+                <h:outputText value="#{einGeisternetz.person.vorname}"/>
+            </p:column>
+            <p:column headerText="Nachname">
+                <h:outputText value="#{einGeisternetz.person.nachname}"/>
+            </p:column>
+            <p:column headerText="Telefonnummer">
+                <h:outputText value="#{einGeisternetz.person.telefonnummer}"/>
             </p:column>
         </p:dataTable>
-        <p:commandButton value="Als Geborgen melden" actionListener="#{buchungVerwaltung.updateGeisternetzeStatus('Geborgen')}" update="bookingDetailsTable" />
-        <p:commandButton value="Als Verschollen melden" actionListener="#{buchungVerwaltung.updateGeisternetzeStatus('Verschollen')}" update="bookingDetailsTable" />
+
+        <p:commandButton id="geborgenMeldenButton"
+                         value="Als Geborgen melden" icon="pi pi-check"
+                         actionListener="#{geisternetzIstGeborgenController.alsGeborgenMelden}" process="@this"
+                         update="sucheForm: geisternetzeTabelle">
+        </p:commandButton>
+
+        <p:commandButton id="verschollenButton"
+                         value="Als Verschollen melden" icon="pi pi-times"
+                         actionListener="#{geisternetzIstGeborgenController.alsVerschollenMelden}" process="@this"
+                         update="sucheForm: geisternetzeTabelle">
+        </p:commandButton>
     </h:form>
 </h:body>
 </html>

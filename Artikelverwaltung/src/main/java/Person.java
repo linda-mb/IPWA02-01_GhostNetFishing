@@ -18,7 +18,7 @@ public class Person implements Serializable {
 	private String nachname;
 	private String telefonnummer;
 	
-	@OneToMany
+	@OneToMany (mappedBy = "person")
 	List<Geisternetz> zugeordneteGeisternetze;
 	
 	public Person() {}

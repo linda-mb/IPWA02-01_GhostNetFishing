@@ -6,56 +6,101 @@
 
 <h:head>
 	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	<link rel="stylesheet"
+		href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 	<title>Geisternetz melden</title>
 </h:head>
 <h:body>
-	<h:form id="menu">
+	<h:form>
 		<p:megaMenu orientation="horizontal" autoDisplay="true">
-			<p:menuitem value="Startseite" action="index" icon="pi pi-fw pi-home" />
-			<p:menuitem value="Geisternetz melden" action="geisternetzMelden"
+			<p:menuitem value="Startseite" outcome="index"
+				icon="pi pi-fw pi-home" />
+			<p:menuitem value="Geisternetz melden" outcome="geisternetzMelden"
 				icon="pi pi-fw pi-plus" />
-			<p:menuitem value="Geisternetz bergen" action="geisternetzBergen"
+			<p:menuitem value="Geisternetz bergen" outcome="geisternetzBergen"
 				icon="pi pi-fw pi-heart-fill" />
-			<p:menuitem value="Bergung abschließen"
-				action="geisternetzIstGeborgen" icon="pi pi-fw pi-check" />
+			<p:menuitem value="Bergung planen oder abschließen"
+				outcome="dashboardBergendePerson" icon="pi pi-fw pi-check" />
 		</p:megaMenu>
 	</h:form>
 
-	<h1>Geisternetz melden</h1>
+	<div class="main">
+		<h1>Geisternetz melden</h1>
 
-	<h:form id="geisternetzForm">
-		<!-- Form inputs for Geisternetz properties -->
-		<div class="block">
-			<p:outputLabel for="laengengrad" value="Längengrad: " />
-			<p:inputText id="laengengrad"
-				value="#{geisternetzMeldenController.neuesGeisternetz.laengengrad}" />
-		</div>
-		<div class="block">
-			<p:outputLabel for="breitengrad" value="Breitengrad:" />
-			<p:inputText id="breitengrad"
-				value="#{geisternetzMeldenController.neuesGeisternetz.breitengrad}" />
-		</div>
+		<div id="map"></div>
 
-		<div class="field grid">
-			<p:outputLabel for="groesse" value="Größe:" />
+		<h:form id="geisternetzForm">
 			<div>
-				<p:selectOneRadio id="groesse"
-					value="#{geisternetzMeldenController.neuesGeisternetz.groesse}"
-					 required="true">
-					<f:selectItem itemLabel="klein (Länge bis 5 Meter)"
-						itemValue="klein (Länge bis 5 Meter)" />
-					<f:selectItem itemLabel="mittel (Länge 5-15 Meter)"
-						itemValue="mittel (Länge 5-15 Meter)" />
-					<f:selectItem itemLabel="groß (Länge ab 15 Meter)" itemValue="groß (Länge ab 15 Meter)" />
-				</p:selectOneRadio>
+				<p:outputLabel for="laengengrad" value="Längengrad: "
+					styleClass="block" />
+				<p:inputText id="laengengrad"
+					value="#{geisternetzMeldenController.neuesGeisternetz.laengengrad}"
+					required="true">
+					<f:validateDoubleRange minimum="-90" maximum="90" />
+				</p:inputText>
+				<p:message for="laengengrad" />
 			</div>
-			<p:messages />
-		</div>
+			<div>
+				<p:outputLabel for="breitengrad" value="Breitengrad:"
+					styleClass="block" />
+				<p:inputText id="breitengrad"
+					value="#{geisternetzMeldenController.neuesGeisternetz.breitengrad}"
+					required="true">
+					<f:validateDoubleRange minimum="-180" maximum="180" />
+				</p:inputText>
+				<p:message for="breitengrad" />
+				<p class="note">Bitte klicken Sie auf die Karte, um die
+					Koordinaten festzulegen.</p>
+			</div>
 
-		<p:commandButton value="Neues Geisternetz melden"
-			action="#{geisternetzMeldenController.meldeGeisternetz}"
-			update="geisternetzForm:laengengrad, geisternetzForm:breitengrad, geisternetzForm: groesse">
-		</p:commandButton>
-	</h:form>
+			<div class="field grid, mb">
+				<p:outputLabel for="groesse" value="Größe:" />
+				<div class="mt-10">
+					<p:selectOneRadio id="groesse"
+						value="#{geisternetzMeldenController.neuesGeisternetz.groesse}"
+						required="true">
+						<f:selectItem itemLabel="klein (Länge bis 5 Meter)"
+							itemValue="klein (Länge bis 5 Meter)" />
+						<f:selectItem itemLabel="mittel (Länge 5-15 Meter)"
+							itemValue="mittel (Länge 5-15 Meter)" />
+						<f:selectItem itemLabel="groß (Länge ab 15 Meter)"
+							itemValue="groß (Länge ab 15 Meter)" />
+					</p:selectOneRadio>
+					<p:message for="groesse" />
+				</div>
+				<p:growl id="growl-success" for="growl-success" showDetail="true"
+					sticky="false" life="5000" />
+			</div>
+			
+
+			<p:commandButton value="Neues Geisternetz melden"
+				action="#{geisternetzMeldenController.meldeGeisternetz}"
+				update="geisternetzForm:laengengrad, geisternetzForm:breitengrad, geisternetzForm: groesse, geisternetzForm: growl-success">
+			</p:commandButton>
+		</h:form>
+
+	</div>
+	<script>
+        var map = L.map('map').setView([53.1657, 10.4515], 6); // Deutschland zentriert und herangezoomt
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var marker;
+
+        map.on('click', function(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+            document.getElementById('geisternetzForm:breitengrad').value = e.latlng.lat;
+            document.getElementById('geisternetzForm:laengengrad').value = e.latlng.lng;
+        });
+    </script>
+
 </h:body>
 </html>

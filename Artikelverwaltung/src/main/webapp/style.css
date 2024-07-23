@@ -2,6 +2,14 @@ body {
     font-family: Arial;
 }
 
+.ui-card-body {
+	border: 1px solid #eee;
+}
+
+.main {
+	   margin: 50px;
+}
+
 h1 {
     font-size: 1.7em;
 }
@@ -9,6 +17,13 @@ h1 {
 h2 {
     font-size: 1.2em;
 }
+
+#map {
+	height: 400px;
+ 	width: 400px;
+ 	margin-bottom: 25px;
+ }
+
 
 #kopf_links {
     float: left;
@@ -73,12 +88,34 @@ td.nr {
     background-color: lightblue;
 }
 
-       #map {
-            height: 25vw;
-            width: 25vw;
-            margin: 20px 0;
-        }
+
+.mb {
+	margin-bottom: 20px;
+}
+
+.mt-10 {
+	margin-top:10px;
+}
+
+.note {
+	font-size:smaller;
+}
 
 .block {
-	margin-bottom: 20px;
+	display:block;
+}
+
+.ui-linkbutton a {
+	text-decoration: none;
+}
+
+#loginForm {
+	width: 50vw;
+	border: 1px solid #eee;
+	padding: 20px;
+	background-color: #eee;
+}
+
+#loginForm .ui-panelgrid-cell {
+	background-color: #eee;
 }
