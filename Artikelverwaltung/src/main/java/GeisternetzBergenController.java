@@ -13,6 +13,7 @@ import jakarta.inject.Named;
 @SessionScoped
 public class GeisternetzBergenController implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     private Person neuePerson = null;
     private List<Geisternetz> selectedGeisternetze;
 
@@ -33,19 +34,23 @@ public class GeisternetzBergenController implements Serializable {
     public void setSelectedGeisternetze(List<Geisternetz> selectedGeisternetze) {
         this.selectedGeisternetze = selectedGeisternetze;
     }
-
-    public String personSpeichern() {
-        if (geisternetzVerwaltung.savePersonWithGeisternetze(neuePerson, selectedGeisternetze));
-       {
-        	PrimeFaces.current().executeScript("PF('dlg-bergung').hide()");
-        }
-        int anzahl = selectedGeisternetze.size();
-        FacesContext.getCurrentInstance().addMessage(null, 
-            new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                "Erfolgreich für Bergung angemeldet. Anzahl der gebuchten Netze: " + anzahl, ""));
-        this.neuePerson = null;
-        return null;
+    
+    public String getButtonLabel() {
+        int anzahl = selectedGeisternetze != null ? selectedGeisternetze.size() : 0;
+        return anzahl + " ausgewählte Geisternetze bergen";
     }
     
+    public void personSpeichern() {
+        geisternetzVerwaltung.savePersonWithGeisternetze(neuePerson, selectedGeisternetze);
+        int anzahl = selectedGeisternetze.size();
+        FacesContext.getCurrentInstance().addMessage("growl-success", new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Erfolgreich für Bergung angemeldet.", "Anzahl der gebuchten Netze: "+anzahl));
+        PrimeFaces.current().ajax().update("bergenForm:growl-success");
+        PrimeFaces.current().ajax().update("bergenForm:registrierteNetzeTabelle");
+        PrimeFaces.current().ajax().update("bergenForm:bergenButton");
+        PrimeFaces.current().executeScript("PF('dlg-kontaktdaten').hide();");
+        this.neuePerson = null;
+        selectedGeisternetze = null;
+    }
 
 }

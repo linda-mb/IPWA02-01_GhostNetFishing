@@ -9,9 +9,6 @@ import jakarta.inject.Named;
 @Named
 @ViewScoped
 public class GeisternetzMeldenController implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Geisternetz neuesGeisternetz = new Geisternetz();
