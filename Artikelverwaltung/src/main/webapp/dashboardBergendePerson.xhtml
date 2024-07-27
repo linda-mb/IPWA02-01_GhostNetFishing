@@ -1,48 +1,148 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
-<f:metadata>
-    <f:viewAction action="#{loginController.checkLogin}"/>
-</f:metadata>
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+	<title>Dashboard</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
 </h:head>
 <h:body>
 
 	<h:form>
-        <p:megaMenu orientation="horizontal" autoDisplay="true">
-            <p:menuitem value="Startseite" outcome="index" icon="pi pi-fw pi-home" />
-            <p:menuitem value="Geisternetz melden" outcome="geisternetzMelden"
-                        icon="pi pi-fw pi-plus" />
-            <p:menuitem value="Geisternetz bergen" outcome="geisternetzBergen"
-                        icon="pi pi-fw pi-heart-fill" />
-            <p:menuitem value="Bergung planen oder abschließen"
-                        outcome="dashboardBergendePerson" icon="pi pi-fw pi-check" />
-        </p:megaMenu>
+		<p:megaMenu orientation="horizontal" autoDisplay="true">
+			<p:menuitem value="Startseite" outcome="index"
+				icon="pi pi-fw pi-home" />
+			<p:menuitem value="Geisternetz melden" outcome="geisternetzMelden"
+				icon="pi pi-fw pi-plus" />
+			<p:menuitem value="Geisternetz bergen" outcome="geisternetzBergen"
+				icon="pi pi-fw pi-heart-fill" />
+			<p:menuitem value="Bergung planen oder abschließen" outcome="login"
+				icon="pi pi-fw pi-check" />
+		</p:megaMenu>
 	</h:form>
 
-    <h:form id="userInfoForm">
-        <h:panelGrid columns="2" styleClass="userInfo">
-            <h:outputText value="Angemeldet als: #{loginController.loggedInVorname} #{loginController.loggedInNachname}" />
-            <p:commandButton value="Logout" action="#{loginController.logout}" icon="pi pi-sign-out" update="@all" />
-        </h:panelGrid>
-    </h:form>
-<h1>Bergung planen oder abschließen</h1>
-    <h:form>
-        <p:tabView>
-            <p:tab title="Netz als geborgen melden">
-                <ui:include src="geisternetzIstGeborgen.xhtml"/>
-            </p:tab>
-            <p:tab title="Übersicht offener Bergungen">
-                <ui:include src="bergungPlanen.xhtml"/>
-            </p:tab>
-        </p:tabView>
-    </h:form>
+	<h:form id="userInfoForm">
+		<h:panelGrid columns="2" styleClass="userInfo">
+			<h:outputText
+				value="Angemeldet als: #{loginController.loggedInPerson.vorname} #{loginController.nachname}" />
+			<p:commandButton value="Logout" action="#{loginController.logout}"
+				icon="pi pi-sign-out" update="@all" />
+
+			<h:outputText
+				value="Buchungsnummer: #{loginController.buchungsnummer}" />
+			<p></p>
+		</h:panelGrid>
+	</h:form>
+
+	<h1>Bergung planen oder abschließen</h1>
+	
+	<p:growl id="growl" />
+
+	<p:tabView id="tabs">
+		<p:tab title="Netz als geborgen melden">
+
+			<h2>Meine Geisternetze als geborgen melden</h2>
+			<h:form id="sucheForm">
+				<p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
+					value="#{dashboardController.geisternetzeInBergung}"
+					selection="#{dashboardController.selectedGeisternetze}"
+					rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
+					selectionPageOnly="false" rowSelectMode="none">
+					<p:ajax event="rowSelectCheckbox"
+						update="tabs:sucheForm:geborgenMeldenButton, tabs:sucheForm:verschollenButton" />
+					<p:ajax event="rowUnselectCheckbox"
+						update="tabs:sucheForm:geborgenMeldenButton, tabs:sucheForm:verschollenButton" />
+					<p:column selectionMode="multiple"
+						style="width:16px;text-align:center" />
+
+					<p:column headerText="Id">
+						<h:outputText value="#{einGeisternetz.id}" />
+					</p:column>
+					<p:column headerText="Längengrad">
+						<h:outputText value="#{einGeisternetz.laengengrad}" />
+					</p:column>
+					<p:column headerText="Breitengrad">
+						<h:outputText value="#{einGeisternetz.breitengrad}" />
+					</p:column>
+					<p:column headerText="Größe">
+						<h:outputText value="#{einGeisternetz.groesse}" />
+					</p:column>
+					<p:column  headerText="Status">
+						<h:outputText value="#{einGeisternetz.status}" />
+					</p:column>
+					<p:column headerText="Vorname">
+						<h:outputText value="#{einGeisternetz.person.vorname}" />
+					</p:column>
+					<p:column headerText="Nachname">
+						<h:outputText value="#{einGeisternetz.person.nachname}" />
+					</p:column>
+					<p:column headerText="Telefonnummer">
+						<h:outputText value="#{einGeisternetz.person.telefonnummer}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:commandButton id="geborgenMeldenButton"
+					value="Als Geborgen melden" icon="pi pi-check"
+					actionListener="#{dashboardController.alsGeborgenMelden}"
+					disabled="#{empty dashboardController.selectedGeisternetze}"
+					update="sucheForm:geisternetzeTabelle, growl">
+				</p:commandButton>
+
+				<p:commandButton id="verschollenButton"
+					value="Als Verschollen melden" styleClass="ui-button-secondary"
+					icon="pi pi-times"
+					actionListener="#{dashboardController.alsVerschollenMelden}"
+					disabled="#{empty dashboardController.selectedGeisternetze}"
+					update="sucheForm:geisternetzeTabelle, growl">
+				</p:commandButton>
+			</h:form>
+
+		</p:tab>
+		<p:tab title="Übersicht aller bevorstehender Bergungen">
+
+			<h:form id="geplanteBergungenForm">
+				<h2>Übersicht aller bevorstehenden Bergungen</h2>
+
+				<p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
+					value="#{dashboardController.gefundeneGeisternetze}"
+					selection="#{dashboardController.selectedGeisternetze}"
+					rowKey="#{einGeisternetz.id}" paginator="true" rows="10"
+					selectionPageOnly="false">
+
+					<p:column headerText="Id">
+						<h:outputText value="#{einGeisternetz.id}" />
+					</p:column>
+					<p:column field="laengengrad" headerText="Längengrad">
+						<h:outputText value="#{einGeisternetz.laengengrad}" />
+					</p:column>
+					<p:column field="breitengrad" headerText="Breitengrad">
+						<h:outputText value="#{einGeisternetz.breitengrad}" />
+					</p:column>
+					<p:column field="groesse" headerText="Größe">
+						<h:outputText value="#{einGeisternetz.groesse}" />
+					</p:column>
+					
+					<p:column field="person.vorname" headerText="Vorname">
+						<h:outputText value="#{einGeisternetz.person.vorname}" />
+					</p:column>
+					<p:column field="person.nachname" headerText="Nachname">
+						<h:outputText value="#{einGeisternetz.person.nachname}" />
+					</p:column>
+					<p:column field="person.telefonnummer" headerText="Telefonnummer">
+						<h:outputText value="#{einGeisternetz.person.telefonnummer}" />
+					</p:column>
+					<p:column  field="status" filterValue="Bergung bevorstehend" matchMode="contains" headerText="Status">
+						<h:outputText value="#{einGeisternetz.status}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:tab>
+	</p:tabView>
+
+
+
 </h:body>
 </html>

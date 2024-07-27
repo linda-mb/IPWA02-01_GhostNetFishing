@@ -36,7 +36,7 @@
 			rowSelectMode="none">
 			<p:ajax event="rowSelectCheckbox" update="bergenForm:bergenButton" />
 			<p:ajax event="rowUnselectCheckbox" update="bergenForm:bergenButton" />
-			<p:column selectionMode="multiple"
+			<p:column selectionMode="multiple" id="multiSelection"
 				style="width:16px;text-align:center" />
 
 			<p:column sortBy="#{einGeisternetz.id}" headerText="Id">
@@ -99,11 +99,11 @@
 			
 			<p:commandButton value="Bergung verbindlich anmelden"
 				icon="pi pi-check"
-				action="#{geisternetzBergenController.personSpeichern}"
+				action="#{geisternetzBergenController.saveBuchung}"
 				update="dialogKontaktdaten" />
 		</p:dialog>
 
-		<p:growl id="growl-success" for="growl-success" showDetail="true" sticky="false" life="7000" />
+		<p:growl id="growl-success" for="growl-success" showDetail="true" sticky="false" life="6000" />
 	</h:form>
 
 </h:body>

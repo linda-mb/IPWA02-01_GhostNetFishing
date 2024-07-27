@@ -1,83 +1,78 @@
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIInput;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Inject;
+import jakarta.faces.event.AbortProcessingException;
+import jakarta.faces.event.ComponentSystemEvent;
+import jakarta.faces.validator.ValidatorException;
+
 import java.io.Serializable;
-import java.io.IOException;
+import java.util.List;
 
 @Named
 @SessionScoped
 public class LoginController implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
-    private String nachname;
-    private String telefonnummer;
-    private boolean loggedIn = false;
-    private Person loggedInPerson;
+	private static final long serialVersionUID = 1L;
 
-    @Inject
-    private GeisternetzVerwaltung geisternetzVerwaltung;
+	private String nachname;
+	private String buchungsnummer;
+	private Person loggedInPerson;
 
-    public String getNachname() {
-        return nachname;
-    }
+	@Inject
+	private GeisternetzVerwaltung geisternetzVerwaltung;
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
-    }
+	public String getNachname() {
+		return nachname;
+	}
 
-    public String getTelefonnummer() {
-        return telefonnummer;
-    }
+	public void setNachname(String nachname) {
+		this.nachname = nachname;
+	}
 
-    public void setTelefonnummer(String telefonnummer) {
-        this.telefonnummer = telefonnummer;
-    }
+	public String getBuchungsnummer() {
+		return buchungsnummer;
+	}
 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
+	public void setBuchungsnummer(String buchungsnummer) {
+		this.buchungsnummer = buchungsnummer;
+	}
 
     public Person getLoggedInPerson() {
         return loggedInPerson;
     }
 
-    public String getLoggedInVorname() {
-        return loggedInPerson != null ? loggedInPerson.getVorname() : "";
-    }
+	public String login() {
+		List<Person> personenListe = geisternetzVerwaltung.getPersonen();
+		for (Person p : personenListe) {
+			if (p.equals(new Person(0, null, this.nachname, null, this.buchungsnummer))) {
+				loggedInPerson = p;
+				return "dashboardBergendePerson.xhtml?faces-redirect=true";
+			}
+		}
+		return "login.xhtml";
+	}
 
-    public String getLoggedInNachname() {
-        return loggedInPerson != null ? loggedInPerson.getNachname() : "";
-    }
+	public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+		List<Person> personenListe = geisternetzVerwaltung.getPersonen();
+		for (Person p : personenListe) {
+		      Person temp = new Person(0, null, this.nachname, null, (String) value);
+	if (p.equals(temp))
+	return;
+	}
+	throw new ValidatorException(new FacesMessage("Login falsch!"));
+	}
 
-    public String login() {
-        Person person = geisternetzVerwaltung.findPersonByNachnameAndTelefonnummer(nachname, telefonnummer);
-        if (person != null) {
-            loggedIn = true;
-            loggedInPerson = person;
-            return "dashboardBergendePerson?faces-redirect=true";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login Failed", "Invalid Nachname or Telefonnummer"));
-            return null;
-        }
-    }
-
-    public String logout() {
-        loggedIn = false;
-        loggedInPerson = null;
+	public void postValidateName(ComponentSystemEvent ev) throws AbortProcessingException {
+		 UIInput temp = (UIInput)ev.getComponent();
+		this.nachname = (String)temp.getValue();
+		}
+	
+	public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "index?faces-redirect=true";
-    }
-
-    public void checkLogin() {
-        if (!loggedIn) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        this.loggedInPerson = null;
+        return "index.xhtml";
     }
 }

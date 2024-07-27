@@ -1,29 +1,35 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
 </h:head>
 <h:body>
-<div class="main">
-    <h:form id="loginForm">
-        <h2>Login</h2>
-        <p:panelGrid columns="2">
-            <h:outputLabel for="nachname" value="Nachname:"/>
-            <p:inputText id="nachname" value="#{loginController.nachname}" required="true"/>
 
-            <h:outputLabel for="telefonnummer" value="Letzte 4 Ziffern der Telefonnummer:"/>
-            <p:inputText id="telefonnummer" value="#{loginController.telefonnummer}" required="true"/>
-        </p:panelGrid>
-        <p:linkButton outcome="index" value="Abbrechen"  styleClass="ui-button-secondary"/>
-        <p:commandButton value="Login" action="#{loginController.login}" update="loginForm"/>
-        <p:message for="loginForm"/>
-    </h:form>
-    </div>
+
+	<h2>Login</h2>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Nachnname:" for="nachname" />
+			<h:inputText id="nachname" value="#{loginController.nachname}"
+				size="25">
+				<f:event type="postValidate"
+					listener="#{loginController.postValidateName}" />
+			</h:inputText>
+			<h:outputLabel value="Buchungsnummer: " for="buchungsnr" />
+			<h:inputText id="buchungsnr" value="#{loginController.buchungsnummer}"
+				required="true" Validator="#{loginController.validateLogin}"
+				size="25" />
+			<h:commandLink value="Login" action="#{loginController.login()}" />
+		</h:panelGrid>
+	</h:form>
+
 
 </h:body>
 </html>
+
+

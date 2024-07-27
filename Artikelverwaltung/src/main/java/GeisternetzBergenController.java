@@ -19,6 +19,9 @@ public class GeisternetzBergenController implements Serializable {
 
     @Inject
     private GeisternetzVerwaltung geisternetzVerwaltung;
+    
+    @Inject
+    private BuchungsnummerGenerator buchungsnummerGenerator;
 
     public Person getNeuePerson() {
         if (null == this.neuePerson) {
@@ -40,17 +43,19 @@ public class GeisternetzBergenController implements Serializable {
         return anzahl + " ausgewählte Geisternetze bergen";
     }
     
-    public void personSpeichern() {
+    public void saveBuchung() {
+    	neuePerson.setBuchungsnummer(buchungsnummerGenerator.generateBuchungsnummer(10));
         geisternetzVerwaltung.savePersonWithGeisternetze(neuePerson, selectedGeisternetze);
         int anzahl = selectedGeisternetze.size();
+        String buchungsnummer = neuePerson.getBuchungsnummer();
         FacesContext.getCurrentInstance().addMessage("growl-success", new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Erfolgreich für Bergung angemeldet.", "Anzahl der gebuchten Netze: "+anzahl));
+				"Erfolgreich für Bergung angemeldet.", "Anzahl der gebuchten Netze: "+anzahl+" Buchungsnummer: "+ buchungsnummer));
         PrimeFaces.current().ajax().update("bergenForm:growl-success");
         PrimeFaces.current().ajax().update("bergenForm:registrierteNetzeTabelle");
         PrimeFaces.current().ajax().update("bergenForm:bergenButton");
         PrimeFaces.current().executeScript("PF('dlg-kontaktdaten').hide();");
         this.neuePerson = null;
-        selectedGeisternetze = null;
+        this.selectedGeisternetze = null;
     }
 
 }

@@ -14,7 +14,8 @@ public class Geisternetz {
 	private String breitengrad;
 	private String groesse;
 	private String status;
-	
+	private String buchungsnummer;
+
 	@ManyToOne
 	@JoinColumn(name = "person_id")
     private Person person;
@@ -74,6 +75,14 @@ public class Geisternetz {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getBuchungsnummer() {
+		return buchungsnummer;
+	}
+
+	public void setBuchungsnummer(String buchungsnummer) {
+		this.buchungsnummer = buchungsnummer;
 	}
 
 	public Person getPerson() {
