@@ -40,9 +40,9 @@ public class LoginController implements Serializable {
 		this.buchungsnummer = buchungsnummer;
 	}
 
-    public Person getLoggedInPerson() {
-        return loggedInPerson;
-    }
+	public Person getLoggedInPerson() {
+		return loggedInPerson;
+	}
 
 	public String login() {
 		List<Person> personenListe = geisternetzVerwaltung.getPersonen();
@@ -58,21 +58,28 @@ public class LoginController implements Serializable {
 	public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		List<Person> personenListe = geisternetzVerwaltung.getPersonen();
 		for (Person p : personenListe) {
-		      Person temp = new Person(0, null, this.nachname, null, (String) value);
-	if (p.equals(temp))
-	return;
-	}
-	throw new ValidatorException(new FacesMessage("Login falsch!"));
+			Person temp = new Person(0, null, this.nachname, null, (String) value);
+			if (p.equals(temp))
+				return;
+		}
+		throw new ValidatorException(new FacesMessage("Login falsch!"));
 	}
 
 	public void postValidateName(ComponentSystemEvent ev) throws AbortProcessingException {
-		 UIInput temp = (UIInput)ev.getComponent();
-		this.nachname = (String)temp.getValue();
-		}
-	
+		UIInput temp = (UIInput) ev.getComponent();
+		this.nachname = (String) temp.getValue();
+	}
+
 	public String logout() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        this.loggedInPerson = null;
-        return "index.xhtml";
-    }
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		this.loggedInPerson = null;
+		return "index.xhtml";
+	}
+
+	public String checkLogin() {
+		if (loggedInPerson != null) {
+			return "dashboardBergendePerson.xhtml?faces-redirect=true";
+		}
+		return null;
+	}
 }

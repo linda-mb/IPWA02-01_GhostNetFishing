@@ -12,99 +12,106 @@
 <h:body>
 
 	<h:form>
-        <p:megaMenu orientation="horizontal" autoDisplay="true">
-            <p:menuitem value="Startseite" outcome="index" icon="pi pi-fw pi-home" />
-            <p:menuitem value="Geisternetz melden" outcome="geisternetzMelden"
-                        icon="pi pi-fw pi-plus" />
-            <p:menuitem value="Geisternetz bergen" outcome="geisternetzBergen"
-                        icon="pi pi-fw pi-heart-fill" />
-            <p:menuitem value="Bergung planen oder abschließen"
-                        outcome="dashboardBergendePerson" icon="pi pi-fw pi-check" />
-        </p:megaMenu>
+		<p:megaMenu orientation="horizontal" autoDisplay="true">
+			<p:menuitem value="Startseite" outcome="index"
+				icon="pi pi-fw pi-home" />
+			<p:menuitem value="Geisternetz melden" outcome="geisternetzMelden"
+				icon="pi pi-fw pi-plus" />
+			<p:menuitem value="Geisternetz bergen" outcome="geisternetzBergen"
+				icon="pi pi-fw pi-heart-fill" />
+			<p:menuitem value="Bergung planen oder abschließen" outcome="login"
+				icon="pi pi-fw pi-check" />
+		</p:megaMenu>
 	</h:form>
 
-	<h1>Geisternetz bergen</h1>
 
-	<h:form id="bergenForm">
-		<h2>Alle gemeldeten Geisternetze</h2>
-		
-		<p:dataTable id="registrierteNetzeTabelle" var="einGeisternetz"
-			value="#{geisternetzVerwaltung.gemeldeteGeisternetze}"
-			selection="#{geisternetzBergenController.selectedGeisternetze}"
-			rowKey="#{einGeisternetz.id}" paginator="true" rows="10"
-			selectionPageOnly="false"
-			rowSelectMode="none">
-			<p:ajax event="rowSelectCheckbox" update="bergenForm:bergenButton" />
-			<p:ajax event="rowUnselectCheckbox" update="bergenForm:bergenButton" />
-			<p:column selectionMode="multiple" id="multiSelection"
-				style="width:16px;text-align:center" />
+	<div class="main">
+		<h1>Geisternetz bergen</h1>
+		<h:form id="bergenForm">
+			<h2>Alle gemeldeten Geisternetze</h2>
 
-			<p:column sortBy="#{einGeisternetz.id}" headerText="Id">
-				<h:outputText value="#{einGeisternetz.id}" />
-			</p:column>
-			<p:column field="laengengrad" headerText="Längengrad" >
-				<h:outputText value="#{einGeisternetz.laengengrad}" />
-			</p:column>
-			<p:column field="breitengrad" headerText="Breitengrad">
-				<h:outputText value="#{einGeisternetz.breitengrad}" />
-			</p:column>
-			<p:column field="groesse" headerText="Größe">
-				<h:outputText value="#{einGeisternetz.groesse}" />
-			</p:column>
-			<p:column field="status" filterValue="Gemeldet" matchMode="contains" headerText="Status">
-				<h:outputText value="#{einGeisternetz.status}" />
-			</p:column>
-		</p:dataTable>
-		
-		<p:commandButton id="bergenButton"
-			value="#{geisternetzBergenController.buttonLabel}" icon="pi pi-check"
-			onclick="PF('dlg-kontaktdaten').show()"
-			disabled="#{empty geisternetzBergenController.selectedGeisternetze}" />
-	
-		<p:dialog header="Kontaktdaten" widgetVar="dlg-kontaktdaten" modal="true"
-			resizable="false">
-			<p>Bitte geben Sie Ihre Kontaktdaten ein, um den Vorgang
-				abzuschließen.</p>
-				
-			<h:panelGrid columns="2" id="dialogKontaktdaten">
-				<h:outputLabel for="vorname" value="Vorname:" />
-				<p:inputText id="vorname"
-					value="#{geisternetzBergenController.neuePerson.vorname}"
-					required="true" requiredMessage="Bitte geben Sie Ihren Vornamen ein." >
-					<f:validateLength minimum="2" />
-				</p:inputText>
-				<p> </p>
-				<p:message for="vorname" />
+			<p:dataTable id="registrierteNetzeTabelle" var="einGeisternetz"
+				value="#{geisternetzVerwaltung.gemeldeteGeisternetze}"
+				selection="#{geisternetzBergenController.selectedGeisternetze}"
+				rowKey="#{einGeisternetz.id}" paginator="true" rows="10"
+				selectionPageOnly="false" rowSelectMode="none">
+				<p:ajax event="rowSelectCheckbox" update="bergenForm:bergenButton" />
+				<p:ajax event="rowUnselectCheckbox" update="bergenForm:bergenButton" />
+				<p:column selectionMode="multiple" id="multiSelection"
+					style="width:16px;text-align:center" />
 
-				<h:outputLabel for="nachname" value="Nachname:" />
-				<p:inputText id="nachname"
-					value="#{geisternetzBergenController.neuePerson.nachname}"
-					required="true" requiredMessage="Bitte geben Sie Ihren Nachnamen ein.">
-					<f:validateLength minimum="2" />
-				</p:inputText>
-				<p> </p>
-				<p:message for="nachname" />
+				<p:column sortBy="#{einGeisternetz.id}" headerText="Id">
+					<h:outputText value="#{einGeisternetz.id}" />
+				</p:column>
+				<p:column field="laengengrad" headerText="Längengrad">
+					<h:outputText value="#{einGeisternetz.laengengrad}" />
+				</p:column>
+				<p:column field="breitengrad" headerText="Breitengrad">
+					<h:outputText value="#{einGeisternetz.breitengrad}" />
+				</p:column>
+				<p:column field="groesse" headerText="Größe">
+					<h:outputText value="#{einGeisternetz.groesse}" />
+				</p:column>
+				<p:column field="status" filterValue="Gemeldet" matchMode="contains"
+					headerText="Status">
+					<h:outputText value="#{einGeisternetz.status}" />
+				</p:column>
+			</p:dataTable>
+
+			<p:commandButton id="bergenButton"
+				value="#{geisternetzBergenController.buttonLabel}"
+				icon="pi pi-check" onclick="PF('dlg-kontaktdaten').show()"
+				disabled="#{empty geisternetzBergenController.selectedGeisternetze}" />
+
+			<p:dialog header="Kontaktdaten" widgetVar="dlg-kontaktdaten"
+				modal="true" resizable="false">
+				<p>Bitte geben Sie Ihre Kontaktdaten ein, um den Vorgang
+					abzuschließen.</p>
+
+				<h:panelGrid columns="2" id="dialogKontaktdaten">
+					<h:outputLabel for="vorname" value="Vorname:" />
+					<p:inputText id="vorname"
+						value="#{geisternetzBergenController.neuePerson.vorname}"
+						required="true"
+						requiredMessage="Bitte geben Sie Ihren Vornamen ein.">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+					<p></p>
+					<p:message for="vorname" />
+
+					<h:outputLabel for="nachname" value="Nachname:" />
+					<p:inputText id="nachname"
+						value="#{geisternetzBergenController.neuePerson.nachname}"
+						required="true"
+						requiredMessage="Bitte geben Sie Ihren Nachnamen ein.">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+					<p></p>
+					<p:message for="nachname" />
 
 
-				<h:outputLabel for="telefonnummer" value="Telefonnummer:" />
-				<p:inputText id="telefonnummer"
-					value="#{geisternetzBergenController.neuePerson.telefonnummer}"
-					required="true" requiredMessage="Bitte geben Sie eine Telefonnummer an." 
-					validatorMessage="Die Telefonnummer ist ungültig. Neben Zahlen sind folgende Sonderzeichen +-/ und Leerzeichen erlaubt, z.B. +49 30/1234-5." >
-					<f:validateRegex pattern="^\+?[0-9][0-9\s/-]{4,19}$" />
-				</p:inputText>
-					<p> </p>
-				<p:message for="telefonnummer" />
-			</h:panelGrid>
-			
-			<p:commandButton value="Bergung verbindlich anmelden"
-				icon="pi pi-check"
-				action="#{geisternetzBergenController.saveBuchung}"
-				update="dialogKontaktdaten" />
-		</p:dialog>
+					<h:outputLabel for="telefonnummer" value="Telefonnummer:" />
+					<p:inputText id="telefonnummer"
+						value="#{geisternetzBergenController.neuePerson.telefonnummer}"
+						required="true"
+						requiredMessage="Bitte geben Sie eine Telefonnummer an."
+						validatorMessage="Die Telefonnummer ist ungültig. Neben Zahlen sind folgende Sonderzeichen +-/ und Leerzeichen erlaubt, z.B. +49 30/1234-5.">
+						<f:validateRegex pattern="^\+?[0-9][0-9\s/-]{4,19}$" />
+					</p:inputText>
+					<p></p>
+					<p:message for="telefonnummer" />
+				</h:panelGrid>
 
-		<p:growl id="growl-success" for="growl-success" showDetail="true" sticky="false" life="6000" />
-	</h:form>
+				<p:commandButton value="Bergung verbindlich anmelden"
+					icon="pi pi-check"
+					action="#{geisternetzBergenController.saveBuchung}"
+					update="dialogKontaktdaten" />
+			</p:dialog>
+
+			<p:growl id="growl-success" for="growl-success" showDetail="true"
+				sticky="true" />
+		</h:form>
+	</div>
 
 </h:body>
 </html>

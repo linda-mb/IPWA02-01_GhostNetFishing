@@ -9,25 +9,31 @@
 	<link rel="stylesheet" type="text/css" href="style.css" />
 </h:head>
 <h:body>
-
-
-	<h2>Login</h2>
-	<h:form>
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Nachnname:" for="nachname" />
-			<h:inputText id="nachname" value="#{loginController.nachname}"
-				size="25">
-				<f:event type="postValidate"
-					listener="#{loginController.postValidateName}" />
-			</h:inputText>
-			<h:outputLabel value="Buchungsnummer: " for="buchungsnr" />
-			<h:inputText id="buchungsnr" value="#{loginController.buchungsnummer}"
-				required="true" Validator="#{loginController.validateLogin}"
-				size="25" />
-			<h:commandLink value="Login" action="#{loginController.login()}" />
-		</h:panelGrid>
-	</h:form>
-
+	<f:metadata>
+		<f:viewAction action="#{loginController.checkLogin}" />
+	</f:metadata>
+	<div class="main">
+		<h2>Login</h2>
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nachname:" for="nachname" />
+				<h:inputText id="nachname" value="#{loginController.nachname}"
+					required="true" size="25">
+					<f:event type="postValidate"
+						listener="#{loginController.postValidateName}" />
+				</h:inputText>
+				<h:outputLabel value="Buchungsnummer: " for="buchungsnr" />
+				<h:inputText id="buchungsnr"
+					value="#{loginController.buchungsnummer}" required="true"
+					validator="#{loginController.validateLogin}" size="25" />
+				<p:commandButton value="Abbrechen" styleClass="ui-button-secondary"
+					onclick="window.history.back();" />
+				<p:commandButton value="Login" action="#{loginController.login()}"
+					update="messages" />
+			</h:panelGrid>
+		</h:form>
+		<p:messages id="messages" />
+	</div>
 
 </h:body>
 </html>

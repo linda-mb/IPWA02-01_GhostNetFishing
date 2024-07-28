@@ -13,7 +13,7 @@ public class DashboardController implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private List<Geisternetz> selectedGeisternetze;
-    private List<Geisternetz> gefundeneGeisternetze;
+    private List<Geisternetz> geisternetzeInBergung;
 
     @Inject
     private GeisternetzVerwaltung geisternetzVerwaltung;
@@ -30,7 +30,7 @@ public class DashboardController implements Serializable {
     }
     
     // Fetch geisternetze in bergung status for the logged-in user
-    public List<Geisternetz> getGeisternetzeInBergung() {
+    public List<Geisternetz> getGeisternetzeInBergungByBooking() {
         Person loggedInPerson = loginController.getLoggedInPerson();
         if (loggedInPerson == null) {
             return null;
@@ -58,8 +58,8 @@ public class DashboardController implements Serializable {
         this.selectedGeisternetze = null;
     }
     
-    public List<Geisternetz> getGefundeneGeisternetze() {
-        gefundeneGeisternetze = geisternetzVerwaltung.getGeisternetzeMitStatus();
-        return gefundeneGeisternetze;
+    public List<Geisternetz> getGeisternetzeInBergung() {
+        geisternetzeInBergung = geisternetzVerwaltung.getGeisternetzeInBergung();
+        return geisternetzeInBergung;
     }
 }

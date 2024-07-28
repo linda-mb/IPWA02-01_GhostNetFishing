@@ -36,112 +36,115 @@
 			<p></p>
 		</h:panelGrid>
 	</h:form>
+	<div class="main">
+		<h1>Bergung planen oder abschließen</h1>
 
-	<h1>Bergung planen oder abschließen</h1>
-	
-	<p:growl id="growl" />
+		<p:growl id="growl" />
 
-	<p:tabView id="tabs">
-		<p:tab title="Netz als geborgen melden">
+		<p:tabView id="tabs">
+			<p:tab title="Netz als geborgen melden">
 
-			<h2>Meine Geisternetze als geborgen melden</h2>
-			<h:form id="sucheForm">
-				<p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
-					value="#{dashboardController.geisternetzeInBergung}"
-					selection="#{dashboardController.selectedGeisternetze}"
-					rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
-					selectionPageOnly="false" rowSelectMode="none">
-					<p:ajax event="rowSelectCheckbox"
-						update="tabs:sucheForm:geborgenMeldenButton, tabs:sucheForm:verschollenButton" />
-					<p:ajax event="rowUnselectCheckbox"
-						update="tabs:sucheForm:geborgenMeldenButton, tabs:sucheForm:verschollenButton" />
-					<p:column selectionMode="multiple"
-						style="width:16px;text-align:center" />
+				<h2>Meine Geisternetze als geborgen melden</h2>
+				<h:form id="sucheForm">
+					<p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
+						value="#{dashboardController.geisternetzeInBergungByBooking}"
+						selection="#{dashboardController.selectedGeisternetze}"
+						rowKey="#{einGeisternetz.id}" paginator="true" rows="5"
+						selectionPageOnly="false" rowSelectMode="none">
+						<p:ajax event="rowSelectCheckbox"
+							update="tabs:sucheForm:geborgenMeldenButton, tabs:sucheForm:verschollenButton" />
+						<p:ajax event="rowUnselectCheckbox"
+							update="tabs:sucheForm:geborgenMeldenButton, tabs:sucheForm:verschollenButton" />
+						<p:column selectionMode="multiple"
+							style="width:16px;text-align:center" />
 
-					<p:column headerText="Id">
-						<h:outputText value="#{einGeisternetz.id}" />
-					</p:column>
-					<p:column headerText="Längengrad">
-						<h:outputText value="#{einGeisternetz.laengengrad}" />
-					</p:column>
-					<p:column headerText="Breitengrad">
-						<h:outputText value="#{einGeisternetz.breitengrad}" />
-					</p:column>
-					<p:column headerText="Größe">
-						<h:outputText value="#{einGeisternetz.groesse}" />
-					</p:column>
-					<p:column  headerText="Status">
-						<h:outputText value="#{einGeisternetz.status}" />
-					</p:column>
-					<p:column headerText="Vorname">
-						<h:outputText value="#{einGeisternetz.person.vorname}" />
-					</p:column>
-					<p:column headerText="Nachname">
-						<h:outputText value="#{einGeisternetz.person.nachname}" />
-					</p:column>
-					<p:column headerText="Telefonnummer">
-						<h:outputText value="#{einGeisternetz.person.telefonnummer}" />
-					</p:column>
-				</p:dataTable>
+						<p:column headerText="Id">
+							<h:outputText value="#{einGeisternetz.id}" />
+						</p:column>
+						<p:column headerText="Längengrad">
+							<h:outputText value="#{einGeisternetz.laengengrad}" />
+						</p:column>
+						<p:column headerText="Breitengrad">
+							<h:outputText value="#{einGeisternetz.breitengrad}" />
+						</p:column>
+						<p:column headerText="Größe">
+							<h:outputText value="#{einGeisternetz.groesse}" />
+						</p:column>
+						<p:column headerText="Status">
+							<h:outputText value="#{einGeisternetz.status}" />
+						</p:column>
+						<p:column headerText="Vorname">
+							<h:outputText value="#{einGeisternetz.person.vorname}" />
+						</p:column>
+						<p:column headerText="Nachname">
+							<h:outputText value="#{einGeisternetz.person.nachname}" />
+						</p:column>
+						<p:column headerText="Telefonnummer">
+							<h:outputText value="#{einGeisternetz.person.telefonnummer}" />
+						</p:column>
+					</p:dataTable>
 
-				<p:commandButton id="geborgenMeldenButton"
-					value="Als Geborgen melden" icon="pi pi-check"
-					actionListener="#{dashboardController.alsGeborgenMelden}"
-					disabled="#{empty dashboardController.selectedGeisternetze}"
-					update="sucheForm:geisternetzeTabelle, growl">
-				</p:commandButton>
+					<p:commandButton id="geborgenMeldenButton"
+						value="Als Geborgen melden" icon="pi pi-check"
+						actionListener="#{dashboardController.alsGeborgenMelden}"
+						disabled="#{empty dashboardController.selectedGeisternetze}"
+						update="sucheForm:geisternetzeTabelle, growl, tabs:geplanteBergungenForm:geisternetzeTabelle
+								sucheForm:verschollenButton, sucheForm:geborgenMeldenButton">
+					</p:commandButton>
 
-				<p:commandButton id="verschollenButton"
-					value="Als Verschollen melden" styleClass="ui-button-secondary"
-					icon="pi pi-times"
-					actionListener="#{dashboardController.alsVerschollenMelden}"
-					disabled="#{empty dashboardController.selectedGeisternetze}"
-					update="sucheForm:geisternetzeTabelle, growl">
-				</p:commandButton>
-			</h:form>
+					<p:commandButton id="verschollenButton"
+						value="Als Verschollen melden" styleClass="ui-button-secondary"
+						icon="pi pi-times"
+						actionListener="#{dashboardController.alsVerschollenMelden}"
+						disabled="#{empty dashboardController.selectedGeisternetze}"
+						update="sucheForm:geisternetzeTabelle, growl, tabs:geplanteBergungenForm:geisternetzeTabelle,
+								sucheForm:verschollenButton, sucheForm:geborgenMeldenButton">
+					</p:commandButton>
+				</h:form>
 
-		</p:tab>
-		<p:tab title="Übersicht aller bevorstehender Bergungen">
+			</p:tab>
+			<p:tab title="Übersicht aller bevorstehender Bergungen">
 
-			<h:form id="geplanteBergungenForm">
-				<h2>Übersicht aller bevorstehenden Bergungen</h2>
+				<h:form id="geplanteBergungenForm">
+					<h2>Übersicht aller bevorstehenden Bergungen</h2>
 
-				<p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
-					value="#{dashboardController.gefundeneGeisternetze}"
-					selection="#{dashboardController.selectedGeisternetze}"
-					rowKey="#{einGeisternetz.id}" paginator="true" rows="10"
-					selectionPageOnly="false">
+					<p:dataTable id="geisternetzeTabelle" var="einGeisternetz"
+						value="#{dashboardController.geisternetzeInBergung}"
+						selection="#{dashboardController.selectedGeisternetze}"
+						rowKey="#{einGeisternetz.id}" paginator="true" rows="10"
+						selectionPageOnly="false">
 
-					<p:column headerText="Id">
-						<h:outputText value="#{einGeisternetz.id}" />
-					</p:column>
-					<p:column field="laengengrad" headerText="Längengrad">
-						<h:outputText value="#{einGeisternetz.laengengrad}" />
-					</p:column>
-					<p:column field="breitengrad" headerText="Breitengrad">
-						<h:outputText value="#{einGeisternetz.breitengrad}" />
-					</p:column>
-					<p:column field="groesse" headerText="Größe">
-						<h:outputText value="#{einGeisternetz.groesse}" />
-					</p:column>
-					
-					<p:column field="person.vorname" headerText="Vorname">
-						<h:outputText value="#{einGeisternetz.person.vorname}" />
-					</p:column>
-					<p:column field="person.nachname" headerText="Nachname">
-						<h:outputText value="#{einGeisternetz.person.nachname}" />
-					</p:column>
-					<p:column field="person.telefonnummer" headerText="Telefonnummer">
-						<h:outputText value="#{einGeisternetz.person.telefonnummer}" />
-					</p:column>
-					<p:column  field="status" filterValue="Bergung bevorstehend" matchMode="contains" headerText="Status">
-						<h:outputText value="#{einGeisternetz.status}" />
-					</p:column>
-				</p:dataTable>
-			</h:form>
-		</p:tab>
-	</p:tabView>
+						<p:column headerText="Id">
+							<h:outputText value="#{einGeisternetz.id}" />
+						</p:column>
+						<p:column field="laengengrad" headerText="Längengrad">
+							<h:outputText value="#{einGeisternetz.laengengrad}" />
+						</p:column>
+						<p:column field="breitengrad" headerText="Breitengrad">
+							<h:outputText value="#{einGeisternetz.breitengrad}" />
+						</p:column>
+						<p:column field="groesse" headerText="Größe">
+							<h:outputText value="#{einGeisternetz.groesse}" />
+						</p:column>
 
+						<p:column field="person.vorname" headerText="Vorname">
+							<h:outputText value="#{einGeisternetz.person.vorname}" />
+						</p:column>
+						<p:column field="person.nachname" headerText="Nachname">
+							<h:outputText value="#{einGeisternetz.person.nachname}" />
+						</p:column>
+						<p:column field="person.telefonnummer" headerText="Telefonnummer">
+							<h:outputText value="#{einGeisternetz.person.telefonnummer}" />
+						</p:column>
+						<p:column field="status" filterValue="Bergung bevorstehend"
+							matchMode="contains" headerText="Status">
+							<h:outputText value="#{einGeisternetz.status}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+	</div>
 
 
 </h:body>

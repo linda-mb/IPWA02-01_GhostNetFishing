@@ -21,8 +21,8 @@
 				icon="pi pi-fw pi-plus" />
 			<p:menuitem value="Geisternetz bergen" outcome="geisternetzBergen"
 				icon="pi pi-fw pi-heart-fill" />
-			<p:menuitem value="Bergung planen oder abschließen"
-				outcome="dashboardBergendePerson" icon="pi pi-fw pi-check" />
+			<p:menuitem value="Bergung planen oder abschließen" outcome="login"
+				icon="pi pi-fw pi-check" />
 		</p:megaMenu>
 	</h:form>
 
@@ -73,7 +73,7 @@
 				<p:growl id="growl-success" for="growl-success" showDetail="true"
 					sticky="false" life="5000" />
 			</div>
-			
+
 
 			<p:commandButton value="Neues Geisternetz melden"
 				action="#{geisternetzMeldenController.meldeGeisternetz}"
