@@ -1,12 +1,8 @@
-# shortcasts-dev
-Entwicklungsstrang für die Shortcastproduktion IPWA02-01
+# IPWA02-01_GhostNetFishing
+Prototyp für Aufgabenstellung 3: Ghost Net Fishing
+Bais: shortcasts-dev (Entwicklungsstrang für die Shortcastproduktion IPWA02-01)
 
 # Branches und ihre Verwendung:
 ## main
-Ergebnisse aus den Videos rund um das Hello World-Beispiel
-## components
-Ergebnis aus dem Video "JSF-Komponenten"
-## beans-intro
-Ergebnis aus dem Video "Beans: Eine Einführung"
-## beans-input
-Ergebnis aus dem Video "Beans: Benutzereingaben speichern"
+Finaler Prototyp
+
